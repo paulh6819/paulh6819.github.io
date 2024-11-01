@@ -3,15 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="index.css" />
     <title>My Website</title>
   </head>
   <body>
     <h1>Hello World!</h1>
     <p>Welcome to my website.</p>
+    <input type="text" placeholder="Prompt our AI model here" />
     <div class="drop-area">
       <h4 id="drag-and-drop-text">Drag and drop something</h4>
+      <div class="image-preview" id="imagePreview">
+        <img id="droppedImage" />
+      </div>
     </div>
+    <div class="upload-container" id="upload-button-id">
+      <label class="upload-button" for="file-upload">
+        Or click here to upload and submit
+      </label>
+    </div>
+    <input
+      id="file-upload"
+      type="file"
+      multiple=""
+      onchange="handleFileSelect(event)"
+    />
 
     <script src="script.js"></script>
   </body>
