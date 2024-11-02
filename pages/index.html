@@ -9,7 +9,11 @@
   <body>
     <h1>Hello World!</h1>
     <p>Welcome to my website.</p>
-    <input type="text" placeholder="Prompt our AI model here" />
+    <input
+      type="text"
+      placeholder="Prompt our AI model here"
+      id="prompt-text"
+    />
     <div
       class="drop-area"
       ondrop="handleDrop(event)"
@@ -31,6 +35,7 @@
       multiple=""
       onchange="handleFileSelect(event)"
     />
+    <div id="display-dropped-photos"></div>
 
     <script src="./js/script.js"></script>
   </body>

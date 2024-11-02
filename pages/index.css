@@ -10,3 +10,7 @@
 .drop-area:hover {
   background-color: blue;
 }
+#prompt-text {
+  width: 80%;
+  margin-bottom: 20px;
+}
