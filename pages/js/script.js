@@ -10,6 +10,8 @@ async function handleDrop(event) {
   // This populates the UI with the uploaded images
   const imageArray = createArrayOfImagesFromFile(file);
   updateImage(imageArray);
+
+  displaySendDataButton();
 }
 
 /////
@@ -47,4 +49,10 @@ function createArrayOfImagesFromFile(fileElement) {
     }
   }
   return imageArray;
+}
+
+function displaySendDataButton() {
+  document.getElementById(
+    "div-for-button-to-fetch-data-from-backend"
+  ).style.display = "block";
 }

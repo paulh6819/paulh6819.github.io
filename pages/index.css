@@ -35,3 +35,6 @@
   width: auto; /* Maintain aspect ratio */
   display: block; /* Block display to fit the container properly */
 }
+#div-for-button-to-fetch-data-from-backend {
+  display: none;
+}
