@@ -16,8 +16,19 @@ async function handleDrop(event) {
 }
 
 async function sendDataToAIEndPoint() {
-  const promtText = document.getElementById("prompt-text").value;
-  console.log(promtText);
+  const promtTextInput = document.getElementById("prompt-text").value;
+  console.log(promtTextInput);
+  formData.append("prompt", promtTextInput);
+  console.log("this is the formdata", formData);
+
+  try {
+    const response = await fetch("/AIAnalysisEndPoint", {
+      method: "POST",
+      body: formData,
+    });
+  } catch (error) {
+    console.error("this is the error from the AIEndPoint", error);
+  }
 }
 
 /////
@@ -50,7 +61,7 @@ function createArrayOfImagesFromFile(fileElement) {
   for (let i = 0; i < fileElement.length; i++) {
     if (fileElement[i].type.match(/^image\//)) {
       console.log("Dropped file:", fileElement[i]);
-      formData.append("images[]", fileElement[i]);
+      formData.append("images", fileElement[i]);
       imageArray.push(fileElement[i]);
     }
   }
