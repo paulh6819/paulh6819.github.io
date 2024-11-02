@@ -6,3 +6,7 @@
 #drag-and-drop-text {
   background-color: aqua;
 }
+
+.drop-area:hover {
+  background-color: blue;
+}

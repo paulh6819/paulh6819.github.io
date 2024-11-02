@@ -10,7 +10,11 @@
     <h1>Hello World!</h1>
     <p>Welcome to my website.</p>
     <input type="text" placeholder="Prompt our AI model here" />
-    <div class="drop-area">
+    <div
+      class="drop-area"
+      ondrop="handleDrop(event)"
+      ondragover="handleDragOver(event)"
+    >
       <h4 id="drag-and-drop-text">Drag and drop something</h4>
       <div class="image-preview" id="imagePreview">
         <img id="droppedImage" />
@@ -28,6 +32,6 @@
       onchange="handleFileSelect(event)"
     />
 
-    <script src="script.js"></script>
+    <script src="./js/script.js"></script>
   </body>
 </html>
