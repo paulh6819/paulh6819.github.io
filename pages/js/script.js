@@ -1,5 +1,6 @@
 let formData = new FormData();
 
+//this function handles the photos being dropped by the user
 async function handleDrop(event) {
   event.preventDefault();
 
@@ -12,6 +13,11 @@ async function handleDrop(event) {
   updateImage(imageArray);
 
   displaySendDataButton();
+}
+
+async function sendDataToAIEndPoint() {
+  const promtText = document.getElementById("prompt-text").value;
+  console.log(promtText);
 }
 
 /////
