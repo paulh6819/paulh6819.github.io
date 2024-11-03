@@ -1,5 +1,7 @@
 import express from "express";
 import multer from "multer";
+import OpenAI from "openai";
+import dotenv from "dotenv";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,6 +10,9 @@ app.use(express.static("pages"));
 app.use(express.urlencoded({ extended: true }));
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const openai = new OpenAI({
+  apiKey: process.env.CHAT_GPT_API_KEY,
+});
 
 app.post("/AIAnalysisEndPoint", upload.array("images"), async (req, res) => {
   //this is necessary because the prompt comes in array of all the promts, can be a source for bugs so I will need to dig in to this
