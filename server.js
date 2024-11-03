@@ -18,6 +18,25 @@ app.post("/AIAnalysisEndPoint", upload.array("images"), async (req, res) => {
   if (!req.files || req.files.length === 0) {
     return res.status(400).send("No images uploaded.");
   }
+
+  const promises = req.files.map((file) =>
+    informationBackFromChatGPTAboutPhoto(file.buffer, promtForGPT)
+  );
+
+  Promise.allSettled(promises).then((results) => {
+    results.forEach((result, index) => {
+      if (result.status === "fulfilled") {
+        console.log(`Image ${index + 1}: Success`, result.value);
+      } else {
+        console.log(`Image ${index + 1}: Failed`, result.reason);
+      }
+    });
+    // Filter out successful responses and send them back to the client
+    const successfulResults = results
+      .filter((result) => result.status === "fulfilled")
+      .map((result) => result.value);
+    res.json(successfulResults);
+  });
 });
 
 app.listen(PORT, () => {
