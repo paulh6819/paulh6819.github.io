@@ -1,6 +1,6 @@
 let formData = new FormData();
 
-//this function handles the photos being dropped by the user
+//this function handles the photos being dropped by the user, gets them ready to send to the backend and then displays them for the user
 async function handleDrop(event) {
   event.preventDefault();
 
@@ -26,6 +26,10 @@ async function sendDataToAIEndPoint() {
       method: "POST",
       body: formData,
     });
+
+    console.log(response);
+
+    const data = await handleResponse(response);
   } catch (error) {
     console.error("this is the error from the AIEndPoint", error);
   }
@@ -72,4 +76,15 @@ function displaySendDataButton() {
   document.getElementById(
     "div-for-button-to-fetch-data-from-backend"
   ).style.display = "block";
+}
+
+async function handleResponse(response) {
+  if (response.ok) {
+    const data = await response.json();
+    console.log("API Response Data:", data[0].message.content);
+
+    return data;
+  } else {
+    throw new Error(`Server responded with status: ${response.status}`);
+  }
 }
