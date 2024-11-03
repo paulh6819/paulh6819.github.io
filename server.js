@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import OpenAI from "openai";
 import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -48,7 +49,7 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
-async function informationBackFromChatGPTAboutPhoto(img) {
+async function informationBackFromChatGPTAboutPhoto(img, prompt) {
   const base64Image = Buffer.from(img).toString("base64");
 
   const response = await openai.chat.completions.create({
@@ -59,7 +60,7 @@ async function informationBackFromChatGPTAboutPhoto(img) {
         content: [
           {
             type: "text",
-            text: `Here is a promt from a user in regards to the image: ${promtForGPT}. Please return back in the form of HTML so the user can have the result displayed in the UI.`,
+            text: `Here is a promt from a user in regards to the image: ${prompt}. Please return back in the form of HTML so the user can have the result displayed in the UI.`,
           },
           {
             type: "image_url",
