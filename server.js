@@ -60,7 +60,7 @@ async function informationBackFromChatGPTAboutPhoto(img, prompt) {
         content: [
           {
             type: "text",
-            text: `Here is a promt from a user in regards to the image: ${prompt}. Please return back in the form of HTML so the user can have the result displayed in the UI.`,
+            text: `Here is a promt from a user in regards to the image: ${prompt}. Answer as best you can`,
           },
           {
             type: "image_url",

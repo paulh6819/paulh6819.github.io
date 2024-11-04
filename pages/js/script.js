@@ -82,6 +82,9 @@ async function handleResponse(response) {
   if (response.ok) {
     const data = await response.json();
     console.log("API Response Data:", data[0].message.content);
+    const theTestPulledOutOfTheData = data[0].message.content;
+    document.getElementById("result-container").innerHTML =
+      data[0].message.content;
 
     return data;
   } else {
