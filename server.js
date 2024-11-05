@@ -42,6 +42,7 @@ app.post("/AIAnalysisEndPoint", upload.array("images"), async (req, res) => {
       .filter((result) => result.status === "fulfilled")
       .map((result) => result.value);
     res.json(successfulResults);
+    console.log("this is the successful results", successfulResults);
   });
 });
 

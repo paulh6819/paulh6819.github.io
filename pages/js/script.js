@@ -17,9 +17,10 @@ async function handleDrop(event) {
 
 async function sendDataToAIEndPoint() {
   const promtTextInput = document.getElementById("prompt-text").value;
-  console.log(promtTextInput);
+
   formData.append("prompt", promtTextInput);
-  console.log("this is the formdata", formData);
+
+  putPromptInLocalStorage(promtTextInput);
 
   try {
     const response = await fetch("/AIAnalysisEndPoint", {
@@ -83,11 +84,25 @@ async function handleResponse(response) {
     const data = await response.json();
     console.log("API Response Data:", data[0].message.content);
     const theTestPulledOutOfTheData = data[0].message.content;
+    let dataToDisplayInTheUi = "";
+
+    for (let item of data) {
+      dataToDisplayInTheUi += item.message.content;
+    }
+
     document.getElementById("result-container").innerHTML =
-      data[0].message.content;
+      dataToDisplayInTheUi;
 
     return data;
   } else {
     throw new Error(`Server responded with status: ${response.status}`);
   }
+}
+
+function putPromptInLocalStorage(uiPromptValue) {
+  let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
+
+  prompts.push(uiPromptValue);
+
+  localStorage.setItem("prompts", JSON.stringify(prompts));
 }
