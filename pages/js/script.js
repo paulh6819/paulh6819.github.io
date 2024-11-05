@@ -102,7 +102,11 @@ async function handleResponse(response) {
 function putPromptInLocalStorage(uiPromptValue) {
   let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
 
-  prompts.push(uiPromptValue);
+  if (prompts.includes(uiPromptValue)) {
+    console.log("this promt is already in the UI");
+  } else {
+    prompts.push(uiPromptValue);
+  }
 
   localStorage.setItem("prompts", JSON.stringify(prompts));
 }
