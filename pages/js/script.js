@@ -110,3 +110,33 @@ function putPromptInLocalStorage(uiPromptValue) {
 
   localStorage.setItem("prompts", JSON.stringify(prompts));
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("recentsButton")
+    .addEventListener("click", function () {
+      var dropdown = document.getElementById("recentsDropdown");
+      dropdown.style.display =
+        dropdown.style.display === "none" ? "block" : "none";
+    });
+  function takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab() {
+    const recentPromts = JSON.parse(localStorage.getItem("prompts")) || [];
+    const dropdown = document.getElementById("recentsDropdown");
+    dropdown.innerHTML = "";
+    recentPromts.forEach(function (prompt) {
+      let promptEntry = document.createElement("a");
+      promptEntry.textContent = prompt;
+      promptEntry.classList.add("prompt-entry");
+      promptEntry.href = "#";
+      promptEntry.addEventListener("click", function () {
+        document.getElementById("prompt-text").value = prompt;
+        dropdown.style.display = "none"; // Hide dropdown after selection
+      });
+      dropdown.appendChild(promptEntry);
+    });
+  }
+
+  takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
+});
+
+//look into jsdoc for types
