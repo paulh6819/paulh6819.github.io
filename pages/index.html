@@ -7,51 +7,52 @@
     <title>My Website</title>
   </head>
   <body>
-    <h1>Hello World!</h1>
-    <p>Welcome to my website.</p>
-    <input
-      type="text"
-      placeholder="Prompt our AI model here"
-      id="prompt-text"
-    />
+    <div class="app">
+      <h1>Hello World!</h1>
+      <p>Welcome to my website.</p>
+      <input
+        type="text"
+        placeholder="Prompt our AI model here"
+        id="prompt-text"
+      />
 
-    <button id="recentsButton">Recent Prompts</button>
-    <div
-      id="recentsDropdown"
-      class="dropdown-content"
-      style="display: none"
-    ></div>
+      <button id="recentsButton">Recent Prompts</button>
+      <div
+        id="recentsDropdown"
+        class="dropdown-content"
+        style="display: none"
+      ></div>
 
-    <div
-      class="drop-area"
-      ondrop="handleDrop(event)"
-      ondragover="handleDragOver(event)"
-    >
-      <h4 id="drag-and-drop-text">Drag and drop something</h4>
-      <div class="image-preview" id="imagePreview">
-        <img id="droppedImage" />
+      <div
+        class="drop-area"
+        ondrop="handleDrop(event)"
+        ondragover="handleDragOver(event)"
+      >
+        <h4 id="drag-and-drop-text">Drag and drop something</h4>
+        <div class="image-preview" id="imagePreview">
+          <img id="droppedImage" />
+        </div>
       </div>
+      <div class="upload-container" id="upload-button-id">
+        <label class="upload-button" for="file-upload">
+          Or click here to upload and submit
+        </label>
+      </div>
+      <input
+        id="file-upload"
+        type="file"
+        multiple=""
+        onchange="handleFileSelect(event)"
+      />
+      <div id="display-dropped-photos"></div>
+      <button
+        id="div-for-button-to-fetch-data-from-backend"
+        onclick="sendDataToAIEndPoint()"
+      >
+        Send Photos with Promt for processing
+      </button>
+      <div id="result-container"></div>
     </div>
-    <div class="upload-container" id="upload-button-id">
-      <label class="upload-button" for="file-upload">
-        Or click here to upload and submit
-      </label>
-    </div>
-    <input
-      id="file-upload"
-      type="file"
-      multiple=""
-      onchange="handleFileSelect(event)"
-    />
-    <div id="display-dropped-photos"></div>
-    <button
-      id="div-for-button-to-fetch-data-from-backend"
-      onclick="sendDataToAIEndPoint()"
-    >
-      Send Photos with Promt for processing
-    </button>
-    <div id="result-container"></div>
-
     <script src="./js/script.js"></script>
   </body>
 </html>
