@@ -15,6 +15,41 @@ async function handleDrop(event) {
   displaySendDataButton();
 }
 
+// Extracts images from video, adds them to formData
+// async function extractImagesFromVideo(videoFile) {
+//   return new Promise((resolve, reject) => {
+//     const videoElement = document.createElement("video");
+//     const canvas = document.createElement("canvas");
+//     const ctx = canvas.getContext("2d");
+//     let currentTime = 0;
+//     const captureInterval = 5;
+
+//     videoElement.addEventListener("loadedmetadata", () => {
+//       canvas.width = videoElement.videoWidth;
+//       canvas.height = videoElement.videoHeight;
+//       videoElement.currentTime = currentTime;
+//     });
+
+//     videoElement.addEventListener("timeupdate", () => {
+//       ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+//       canvas.toBlob((blob) => {
+//         formData.append("images", blob, `frame_${currentTime}.png`);
+//         if (videoElement.duration - currentTime <= 0.5) {
+//           resolve();
+//         } else {
+//           currentTime += captureInterval;
+//           videoElement.currentTime = Math.min(
+//             currentTime,
+//             videoElement.duration
+//           );
+//         }
+//       });
+//     });
+
+//     videoElement.src = URL.createObjectURL(videoFile);
+//   });
+// }
+
 async function sendDataToAIEndPoint() {
   const promtTextInput = document.getElementById("prompt-text").value;
 
