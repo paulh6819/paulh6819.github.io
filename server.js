@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3010;
 
 app.use(express.static("pages"));
 app.use(express.urlencoded({ extended: true }));
@@ -61,7 +61,8 @@ async function informationBackFromChatGPTAboutPhoto(img, prompt) {
         content: [
           {
             type: "text",
-            text: `Here is a promt from a user in regards to the image: ${prompt}. Answer as best you can`,
+            text: `Here is a promt from a user in regards to the image: ${prompt}. Answer as best you can, and format the response in HTML with proper headings, paragraphs, and spaces at the bottom for additional responses. Make sure it’s readable and well-structured. Do not provide a html tag or a body tag or block markers. 
+`,
           },
           {
             type: "image_url",
