@@ -89,7 +89,7 @@ async function handleResponse(response) {
     for (let item of data) {
       dataToDisplayInTheUi += item.message.content;
     }
-
+    document.getElementById("result-container").style.display = "block";
     document.getElementById("result-container").innerHTML =
       dataToDisplayInTheUi;
 

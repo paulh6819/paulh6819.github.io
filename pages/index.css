@@ -140,3 +140,19 @@
   border-color: transparent;
   transform: translateX(3px) translateY(4px);
 }
+
+#result-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  flex-wrap: nowrap;
+  width: 95%;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 14px;
+  border-radius: 4px;
+  box-shadow: 5px 5px 0px rgb(226 230 255);
+  border: 1px solid black;
+  display: none;
+}
