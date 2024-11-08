@@ -79,3 +79,17 @@
   background-color: rgba(156, 140, 255, 0.469);
   transition: border 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
+.App {
+  font-family: "Futura", sans-serif;
+
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  max-width: 1170px;
+  margin: 0 auto;
+  background-color: #544d9a05;
+  box-shadow: 6px 6px 0px rgb(1 215 224 / 57%);
+  border-radius: 4px;
+  border: 2px solid #393939;
+}
