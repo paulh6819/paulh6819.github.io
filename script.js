@@ -1,5 +1,6 @@
 let formData = new FormData();
 const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+// const apiUrl = "http://localhost:3010";
 
 //this function handles the photos being dropped by the user, gets them ready to send to the backend and then displays them for the user
 async function handleDrop(event) {
