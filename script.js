@@ -2,30 +2,20 @@ let formData = new FormData();
 const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
 // const apiUrl = "http://localhost:3010";
 
-//this function handles the photos being dropped by the user, gets them ready to send to the backend and then displays them for the user
+//
+//The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
+//
 function handleDrop(event) {
   event.preventDefault();
-
-  const file = event.dataTransfer.files;
-
-  console.log("Dropped file:", file);
-
-  // This populates the UI with the uploaded images
-  const imageArray = createArrayOfImagesFromFileAndUpdateFormData(file);
-  updateImage(imageArray);
-
-  displaySendDataButton();
+  const files = event.dataTransfer.files;
+  handleFiles(files);
 }
 
 function handleImageUploadFromButton(event) {
-  const file = event.target.files;
-
-  console.log("Selected files:", file);
-  const imageArray = createArrayOfImagesFromFileAndUpdateFormData(file);
-  updateImage(imageArray);
-  displaySendDataButton();
+  const files = event.target.files;
+  handleFiles(files);
 }
-
+//endpoint
 async function sendDataToAIEndPoint() {
   const promtTextInput = document.getElementById("prompt-text").value;
 
@@ -50,6 +40,12 @@ async function sendDataToAIEndPoint() {
 /////
 /////  HELPER FUNCTIONS BELOW THIS POINT
 ////
+
+function handleFiles(files) {
+  const imageArray = createArrayOfImagesFromFileAndUpdateFormData(files);
+  updateImage(imageArray);
+  displaySendDataButton();
+}
 
 function handleDragOver(event) {
   event.preventDefault();
