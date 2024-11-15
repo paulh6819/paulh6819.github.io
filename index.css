@@ -223,10 +223,26 @@
   transition: border-color 0.1s ease, box-shadow 0.3s ease, transform 0.3s ease;
   display: inline-block;
   opacity: 0.9;
+  display: none;
 }
 
 #div-for-button-to-fetch-data-from-backend:hover {
   box-shadow: 0px 0px 0px rgb(171, 62, 62);
   border-color: transparent;
   transform: translateX(3px) translateY(4px);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #f1f0f0;
+}
+
+.footer-content {
+  margin: 15px;
+}
+
+#footer-content-leftside {
+  display: flex;
+  flex-direction: column;
 }
