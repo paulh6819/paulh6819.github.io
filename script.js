@@ -2,9 +2,8 @@ let formData = new FormData();
 const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
 // const apiUrl = "http://localhost:3010";
 
-//
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
-//
+
 function handleDrop(event) {
   event.preventDefault();
   const files = event.dataTransfer.files;
@@ -145,5 +144,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
   takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const notesButton = document.getElementById("notes-button");
+  notesButton.addEventListener("click", function () {
+    handleModalForCantAccessNotes();
+  });
+});
+
+function handleModalForCantAccessNotes() {
+  const loginModal = document.getElementById("loginModal");
+  loginModal.style.display = "block";
+}
 
 //look into jsdoc for types
