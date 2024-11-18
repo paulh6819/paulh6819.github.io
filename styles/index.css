@@ -304,3 +304,9 @@ li:hover {
 .left-side-footer-link {
   color: #595959;
 }
+
+#div-holding-prompt-and-text-area {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
