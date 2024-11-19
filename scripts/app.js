@@ -121,15 +121,19 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("recentsButton")
     .addEventListener("click", function () {
-      var dropdown = document.getElementById("recentsDropdown");
+      const dropdown = document.getElementById("recentsDropdown");
       dropdown.style.display =
         dropdown.style.display === "none" ? "block" : "none";
+      const modal = document.getElementById("loginModal");
+      modal.style.display = "block";
     });
 
   function takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab() {
     const recentPromts = JSON.parse(localStorage.getItem("prompts")) || [];
     const dropdown = document.getElementById("recentsDropdown");
     dropdown.innerHTML = "";
+    dropdown.style.zIndex = 100;
+
     recentPromts.forEach(function (prompt, index) {
       let xOutButton = document.createElement("button");
       xOutButton.innerHTML = "&times";
