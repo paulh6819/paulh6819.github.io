@@ -125,19 +125,29 @@ document.addEventListener("DOMContentLoaded", function () {
       dropdown.style.display =
         dropdown.style.display === "none" ? "block" : "none";
     });
+
   function takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab() {
     const recentPromts = JSON.parse(localStorage.getItem("prompts")) || [];
     const dropdown = document.getElementById("recentsDropdown");
     dropdown.innerHTML = "";
-    recentPromts.forEach(function (prompt) {
+    recentPromts.forEach(function (prompt, index) {
+      let xOutButton = document.createElement("button");
+      xOutButton.innerHTML = "&times";
+      xOutButton.classList.add("close-button");
+      xOutButton.onclick = function (event) {
+        event.stopPropagation();
+        removePrompt(index);
+        takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
+      };
       let promptEntry = document.createElement("a");
       promptEntry.textContent = prompt;
       promptEntry.classList.add("prompt-entry");
       promptEntry.href = "#";
       promptEntry.addEventListener("click", function () {
         document.getElementById("prompt-text").value = prompt;
-        dropdown.style.display = "none"; // Hide dropdown after selection
+        dropdown.style.display = "none";
       });
+      promptEntry.appendChild(xOutButton);
       dropdown.appendChild(promptEntry);
     });
   }
@@ -155,6 +165,12 @@ document.addEventListener("DOMContentLoaded", function () {
 function handleModalForCantAccessNotes() {
   const loginModal = document.getElementById("loginModal");
   loginModal.style.display = "block";
+}
+
+function removePrompt(index) {
+  let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
+  prompts.splice(index, 1);
+  localStorage.setItem("prompts", JSON.stringify(prompts));
 }
 
 //look into jsdoc for types
