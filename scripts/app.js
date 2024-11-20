@@ -106,7 +106,7 @@ async function handleResponse(response) {
 loadSuggestedPromptsIntoLocalStorage();
 function loadSuggestedPromptsIntoLocalStorage() {
   const prompt1 =
-    "Suggested prompt: Take these Images and return then with descriptive header text. Give the Text css that makes the letter drip and swiral and turn colors";
+    "Suggested prompt: Take these Images and return then with descriptive header text. Give the Text css that makes the letters drip and swiral and turn colors. Make sure individual letters fall too. and print out the css at the bottom so i can copy it.";
   putPromptInLocalStorage(prompt1);
 }
 
