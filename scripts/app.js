@@ -52,7 +52,7 @@ function handleDragOver(event) {
 
 function updateImage(imageArray) {
   const container = document.getElementById("display-dropped-photos");
-
+  container.style.border = "dotted 4px black";
   imageArray.forEach((image) => {
     const imgElement = document.createElement("img");
     const objectURL = URL.createObjectURL(image);
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const dropdown = document.getElementById("recentsDropdown");
       dropdown.style.display =
         dropdown.style.display === "none" ? "block" : "none";
-      const modal = document.getElementById("loginModal");
+      const modal = document.getElementById("dimmed-background");
       modal.style.display = "block";
     });
 
