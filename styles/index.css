@@ -354,3 +354,33 @@ li:hover {
   visibility: hidden;
   transition: opacity 0.5s ease, visibility 0s 0.5s;
 }
+
+.typing {
+  width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid black;
+  font-family: monospace;
+  font-size: 20px;
+  animation: typing 4s steps(14, end) forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: black;
+  }
+}
