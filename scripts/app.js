@@ -15,6 +15,8 @@ function handleImageUploadFromButton(event) {
 }
 //endpoint
 async function sendDataToAIEndPoint() {
+  displayLoadingSymbol();
+
   const promtTextInput = document.getElementById("prompt-text").value;
 
   formData.append("prompt", promtTextInput);
@@ -30,6 +32,7 @@ async function sendDataToAIEndPoint() {
     console.log(response);
 
     const data = await handleResponse(response);
+    hideLoadingSymbol();
   } catch (error) {
     console.error("this is the error from the AIEndPoint", error);
   }
@@ -199,6 +202,25 @@ function takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab() {
     promptEntry.appendChild(xOutButton);
     dropdown.appendChild(promptEntry);
   });
+}
+
+function displayLoadingSymbol() {
+  const loader = document.querySelector(".loadingspinner-container");
+  if (loader) {
+    loader.style.visibility = "visible";
+    loader.style.opacity = "1";
+  }
+}
+
+function hideLoadingSymbol() {
+  const loader = document.querySelector(".loadingspinner-container");
+  if (loader) {
+    loader.style.opacity = "0";
+
+    setTimeout(() => {
+      loader.style.visibility = "hidden";
+    }, 500);
+  }
 }
 
 //look into jsdoc for types

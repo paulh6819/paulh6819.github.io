@@ -2,6 +2,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0s 0.5s;
+  z-index: 1000;
 }
 
 .loadingspinner {
