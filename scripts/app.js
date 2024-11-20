@@ -3,7 +3,6 @@ const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
 // const apiUrl = "http://localhost:3010";
 
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
-
 function handleDrop(event) {
   event.preventDefault();
   const files = event.dataTransfer.files;
@@ -104,6 +103,12 @@ async function handleResponse(response) {
     throw new Error(`Server responded with status: ${response.status}`);
   }
 }
+loadSuggestedPromptsIntoLocalStorage();
+function loadSuggestedPromptsIntoLocalStorage() {
+  const prompt1 =
+    "Suggested prompt: Take these Images and return then with descriptive header text. Give the Text css that makes the letter drip and swiral and turn colors";
+  putPromptInLocalStorage(prompt1);
+}
 
 function putPromptInLocalStorage(uiPromptValue) {
   let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
@@ -124,40 +129,30 @@ document.addEventListener("DOMContentLoaded", function () {
       const dropdown = document.getElementById("recentsDropdown");
       dropdown.style.display =
         dropdown.style.display === "none" ? "block" : "none";
-      const modal = document.getElementById("dimmed-background");
-      modal.style.display = "block";
+      dimBackground();
+      takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
     });
-
-  function takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab() {
-    const recentPromts = JSON.parse(localStorage.getItem("prompts")) || [];
-    const dropdown = document.getElementById("recentsDropdown");
-    dropdown.innerHTML = "";
-    dropdown.style.zIndex = 100;
-
-    recentPromts.forEach(function (prompt, index) {
-      let xOutButton = document.createElement("button");
-      xOutButton.innerHTML = "&times";
-      xOutButton.classList.add("close-button");
-      xOutButton.onclick = function (event) {
-        event.stopPropagation();
-        removePrompt(index);
-        takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
-      };
-      let promptEntry = document.createElement("a");
-      promptEntry.textContent = prompt;
-      promptEntry.classList.add("prompt-entry");
-      promptEntry.href = "#";
-      promptEntry.addEventListener("click", function () {
-        document.getElementById("prompt-text").value = prompt;
-        dropdown.style.display = "none";
-      });
-      promptEntry.appendChild(xOutButton);
-      dropdown.appendChild(promptEntry);
-    });
-  }
-
-  takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
 });
+function dimBackground() {
+  const modal = document.getElementById("dimmed-background");
+  modal.style.transition = "opacity 0.5s ease-out";
+  modal.style.opacity = "1";
+  modal.style.visibility = "visible";
+}
+function removeimmedBackground() {
+  const modal = document.getElementById("dimmed-background");
+  modal.style.opacity = "0";
+  modal.addEventListener(
+    "transitionend",
+    function handler() {
+      if (modal.style.opacity === "0") {
+        modal.style.visibility = "hidden";
+      }
+      modal.removeEventListener("transitionend", handler);
+    },
+    { once: true }
+  );
+}
 
 document.addEventListener("DOMContentLoaded", function () {
   const notesButton = document.getElementById("notes-button");
@@ -175,6 +170,35 @@ function removePrompt(index) {
   let prompts = JSON.parse(localStorage.getItem("prompts")) || [];
   prompts.splice(index, 1);
   localStorage.setItem("prompts", JSON.stringify(prompts));
+}
+
+function takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab() {
+  const recentPromts = JSON.parse(localStorage.getItem("prompts")) || [];
+  const dropdown = document.getElementById("recentsDropdown");
+  dropdown.innerHTML = "";
+  dropdown.style.zIndex = 100;
+
+  recentPromts.forEach(function (prompt, index) {
+    let xOutButton = document.createElement("button");
+    xOutButton.innerHTML = "&times";
+    xOutButton.classList.add("close-button");
+    xOutButton.onclick = function (event) {
+      event.stopPropagation();
+      removePrompt(index);
+      takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
+    };
+    let promptEntry = document.createElement("a");
+    promptEntry.textContent = prompt;
+    promptEntry.classList.add("prompt-entry");
+    promptEntry.href = "#";
+    promptEntry.addEventListener("click", function () {
+      document.getElementById("prompt-text").value = prompt;
+      dropdown.style.display = "none";
+      removeimmedBackground();
+    });
+    promptEntry.appendChild(xOutButton);
+    dropdown.appendChild(promptEntry);
+  });
 }
 
 //look into jsdoc for types
