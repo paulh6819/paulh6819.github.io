@@ -10,6 +10,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles/modal.css" />
+    <link rel="stylesheet" href="../styles/loadingSymbol.css" />
   </head>
   <body>
     <div class="App">
@@ -89,6 +90,15 @@
         >
           Send Photos with Promt for processing
         </button>
+        <div className="loadingspinner-container">
+          <div className="loadingspinner">
+            <div className="square1"></div>
+            <div className="square2"></div>
+            <div className="square3"></div>
+            <div className="square4"></div>
+            <div className="square5"></div>
+          </div>
+        </div>
         <div id="result-container"></div>
       </div>
       <div class="footer">
@@ -98,9 +108,6 @@
             href="https://www.paulhendersondesign.com"
             class="left-side-footer-link"
             >Portfolio Site</a
-          >
-          <a href="https://www.gamesighter.com" class="left-side-footer-link"
-            >Bonus Project</a
           >
         </div>
         <div class="footer-content" id="social-media-links">
