@@ -110,6 +110,8 @@ loadSuggestedPromptsIntoLocalStorage();
 function loadSuggestedPromptsIntoLocalStorage() {
   const prompt1 =
     "Suggested prompt: Take these Images and return then with descriptive header text. Give the Text css that makes the letters drip and swiral and turn colors. Make sure individual letters fall too. and print out the css at the bottom so i can copy it.";
+  const promt2 =
+    "suggested prompt: Please identify the following items and bring back an estimated resale value";
   putPromptInLocalStorage(prompt1);
 }
 
@@ -129,13 +131,23 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("recentsButton")
     .addEventListener("click", function () {
+      event.stopPropagation();
       const dropdown = document.getElementById("recentsDropdown");
       dropdown.style.display =
         dropdown.style.display === "none" ? "block" : "none";
       dimBackground();
       takePromptsFromLocalStorageAndDisPlayThemInTheRecentsTab();
     });
+  document.addEventListener("click", function () {
+    const dropdown = document.getElementById("recentsDropdown");
+
+    if (dropdown.style.display === "block") {
+      dropdown.style.display = "none";
+      removeimmedBackground();
+    }
+  });
 });
+
 function dimBackground() {
   const modal = document.getElementById("dimmed-background");
   modal.style.transition = "opacity 0.5s ease-out";
@@ -156,13 +168,6 @@ function removeimmedBackground() {
     { once: true }
   );
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-  const notesButton = document.getElementById("notes-button");
-  notesButton.addEventListener("click", function () {
-    handleModalForCantAccessNotes();
-  });
-});
 
 function handleModalForCantAccessNotes() {
   const loginModal = document.getElementById("loginModal");
