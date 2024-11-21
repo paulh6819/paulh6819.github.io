@@ -73,9 +73,6 @@ li:hover {
   width: auto; /* Maintain aspect ratio */
   display: block; /* Block display to fit the container properly */
 }
-#div-for-button-to-fetch-data-from-backend {
-  display: none;
-}
 
 .dropdown-content {
   display: none;
@@ -260,7 +257,7 @@ li:hover {
   display: none;
   font-size: smaller;
   text-decoration: none;
-  color: #292828;
+  color: #000000;
   font-weight: bold;
   padding: 8px 12px;
   border-radius: 4px;
@@ -270,6 +267,8 @@ li:hover {
   display: inline-block;
   opacity: 0.9;
   display: none;
+  background-color: #cfc8ff4f;
+  font-size: large;
 }
 
 #div-for-button-to-fetch-data-from-backend:hover {
@@ -330,6 +329,7 @@ li:hover {
   flex-direction: row;
   width: 100%;
   justify-content: center;
+  margin-bottom: -50px;
 }
 
 .modal {
@@ -389,10 +389,15 @@ li:hover {
 
 .close-button {
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 0px;
+  right: 0px;
   border: none;
   background: none;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: solid 1px;
+  width: 19px;
+  height: 19px;
+  background-color: #888ccd96;
 }
