@@ -110,9 +110,13 @@ loadSuggestedPromptsIntoLocalStorage();
 function loadSuggestedPromptsIntoLocalStorage() {
   const prompt1 =
     "Suggested prompt: Take these Images and return then with descriptive header text. Give the Text css that makes the letters drip and swiral and turn colors. Make sure individual letters fall too. and print out the css at the bottom so i can copy it.";
-  const promt2 =
-    "suggested prompt: Please identify the following items and bring back an estimated resale value";
+  const prompt2 =
+    "Suggested prompt: Please identify the following items and bring back an estimated resale value.";
+  const promp3 =
+    "Suggested prompt: Please recreate this UI with html and CSS and then print out the css you used at the bottom. Please make the changes significant.";
   putPromptInLocalStorage(prompt1);
+  putPromptInLocalStorage(prompt2);
+  putPromptInLocalStorage(promp3);
 }
 
 function putPromptInLocalStorage(uiPromptValue) {
