@@ -367,6 +367,17 @@ li:hover {
   animation: typing 4s steps(14, end) forwards,
     blink-caret 0.75s step-end infinite;
 }
+.typing-bottom-of-page {
+  width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid black;
+  font-family: monospace;
+  font-size: 20px;
+  animation: typing 4s steps(14, end) forwards,
+    blink-caret 0.75s step-end infinite;
+  margin-left: 40px;
+}
 
 @keyframes typing {
   from {
