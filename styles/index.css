@@ -30,11 +30,17 @@ li:hover {
   border: 20px solid black;
 }
 #drag-and-drop-text {
-  background-color: rgb(255 255 255 / 10%);
   font-size: 40px;
   border-radius: 10px;
 }
 
+@media (max-width: 767px) {
+  #drag-and-drop-text {
+    margin-left: 35px;
+    font-size: 40px;
+    border-radius: 10px;
+  }
+}
 #info-paragraph {
   border: 1px solid #2545b680;
   border-top: 25px solid rgb(147 170 244 / 45%);
@@ -374,7 +380,7 @@ li:hover {
   border-right: 3px solid black;
   font-family: monospace;
   font-size: 20px;
-  animation: typing 4s steps(14, end) forwards,
+  animation: typing 4s steps(29, end) forwards,
     blink-caret 0.75s step-end infinite;
   margin-left: 40px;
 }
