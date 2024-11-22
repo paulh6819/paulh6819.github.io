@@ -364,14 +364,15 @@ li:hover {
 }
 
 .typing {
-  width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid black;
+  /* width: 0; */
+  /* white-space: nowrap;
+  overflow: hidden; */
+  /* border-right: 3px solid black; */
   font-family: monospace;
   font-size: 20px;
-  animation: typing 4s steps(14, end) forwards,
-    blink-caret 0.75s step-end infinite;
+  /* animation: typing 4s steps(14, end) forwards,
+    blink-caret 0.75s step-end infinite; */
+  width: 80%;
 }
 .typing-bottom-of-page {
   width: 0;
@@ -431,4 +432,13 @@ li:hover {
       blink-caret 0.75s step-end infinite;
     margin-left: 15px;
   }
+}
+
+#div-holding-prompt-and-api-title {
+  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
+  align-items: center;
 }
