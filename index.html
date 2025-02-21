@@ -51,7 +51,14 @@
               type="text"
               placeholder="Prompt our 4o vision API AI model here"
               id="prompt-text"
-            ></textarea>
+              value=""
+            >
+            Extract the DVD titles from this image and return them **strictly** as a raw JSON object. Do NOT include any markdown formatting, just return the object directly in this format:
+
+          { "titles": ["Title 1", "Title 2", "Title 3"] }
+          
+          Make sure the response starts directly with { and ends with }. No additional text, explanations, or formatting.
+            </textarea>
 
             <button id="recentsButton">Recent Prompts ⬇️</button>
             <div

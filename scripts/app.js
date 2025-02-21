@@ -1,6 +1,6 @@
 let formData = new FormData();
-const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-// const apiUrl = "http://localhost:3010";
+// const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+const apiUrl = "http://localhost:3010";
 
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
 function handleDrop(event) {
@@ -89,17 +89,33 @@ function displaySendDataButton() {
 
 async function handleResponse(response) {
   if (response.ok) {
-    const data = await response.json();
-    console.log("API Response Data:", data[0].message.content);
-    const theTestPulledOutOfTheData = data[0].message.content;
-    let dataToDisplayInTheUi = "";
+    // const data = await response.json();
+    const data = await response.json(); // Correctly parse the response
+    console.log("Full API Response:", data);
+    // Initialize HTML content
+    let htmlContent = `<h2>Extracted Titles</h2><ul>`;
 
-    for (let item of data) {
-      dataToDisplayInTheUi += item.message.content;
-    }
+    // Iterate over all extracted titles from all results
+    data.results.forEach((result) => {
+      result.extractedTitles.forEach((title) => {
+        htmlContent += `<li><strong>${title}</strong></li>`;
+      });
+    });
+
+    htmlContent += `</ul><h2>Best Fuzzy Matches</h2><ul>`;
+
+    // Iterate over all fuzzy matches from all results
+    data.results.forEach((result) => {
+      result.fuzzyMatches.forEach((match) => {
+        htmlContent += `<li>${match}</li>`;
+      });
+    });
+
+    htmlContent += `</ul>`;
+
+    // Inject into UI
     document.getElementById("result-container").style.display = "block";
-    document.getElementById("result-container").innerHTML =
-      dataToDisplayInTheUi;
+    document.getElementById("result-container").innerHTML = htmlContent;
 
     return data;
   } else {
