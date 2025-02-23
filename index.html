@@ -29,10 +29,10 @@
       </div>
       <div id="dimmed-background"></div>
       <div class="center-container">
-        <h1>DVD SPOTTER</h1>
+        <h1>DVD and VHS SPOTTER</h1>
         <h2 class="typing">
-          Welcome To Our Beta App For identifiing and Pricing DVDs. All feed
-          back is welcome, talk to on reddit at Impossible_Issue_821.
+          Welcome To Our Beta App For identifiing and Pricing DVDs and VHSs. All
+          feed back is welcome, talk to on reddit at Impossible_Issue_821.
         </h2>
 
         <p id="info-paragraph">
@@ -47,6 +47,15 @@
           internet and add titles
         </p>
 
+        <div id="selection-buttons-div">
+          <!-- Buttons -->
+          <button class="option-btn" data-value="VHS">VHS</button>
+          <button class="option-btn" data-value="DVD">DVD</button>
+
+          <!-- Display Selected Option -->
+          <p>Selected: <span id="selected-value">None</span></p>
+        </div>
+
         <div id="div-holding-prompt-and-api-title">
           <p>
             The prompt below is the best one so far for getting the best
@@ -59,11 +68,6 @@
               id="prompt-text"
               value=""
             >
-            Extract the DVD titles from this image and return them **strictly** as a raw JSON object. Do NOT include any markdown formatting, just return the object directly in this format:
-
-          { "titles": ["Title 1", "Title 2", "Title 3"] }
-          
-          Make sure the response starts directly with { and ends with }. No additional text, explanations, or formatting.
             </textarea>
 
             <button id="recentsButton">Recent Prompts ⬇️</button>

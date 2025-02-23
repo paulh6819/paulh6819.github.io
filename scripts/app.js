@@ -2,6 +2,9 @@ let formData = new FormData();
 const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
 //const apiUrl = "http://localhost:3010";
 
+let mediaTypeToggle = localStorage.getItem("selectedMedia") || "VHS";
+console.log(mediaTypeToggle);
+
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
 function handleDrop(event) {
   event.preventDefault();
@@ -23,11 +26,16 @@ async function sendDataToAIEndPoint() {
 
   putPromptInLocalStorage(promtTextInput);
 
+  //below this is where the toggle switch state data will declare the uel perameter
+
   try {
-    const response = await fetch(apiUrl + "/AIAnalysisEndPoint", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     console.log(response);
 
@@ -249,3 +257,36 @@ function hideLoadingSymbol() {
 }
 
 //look into jsdoc for types
+function setupSelectionButtons() {
+  let selectedOption = null;
+
+  document.getElementById("selected-value").innerText =
+    localStorage.getItem("selectedMedia");
+
+  // Select all buttons with class 'option-btn'
+  document.querySelectorAll(".option-btn").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      // Get value from the clicked button
+      selectedOption = event.target.getAttribute("data-value");
+      mediaTypeToggle = selectedOption;
+      console.log(mediaTypeToggle);
+      // Update UI
+      document.getElementById("selected-value").innerText = selectedOption;
+      localStorage.setItem("selectedMedia", selectedOption);
+
+      console.log("Selected Option:", selectedOption);
+    });
+  });
+}
+setupSelectionButtons();
+
+function changeMediaTypeInTheDefaultPrompt() {
+  let startingPrompt = `Extract the ${mediaTypeToggle} titles from this image and return them **strictly** as a raw JSON object. Do NOT include any markdown formatting, just return the object directly in this format:
+
+{ "titles": ["Title 1", "Title 2", "Title 3"] }
+
+Make sure the response starts directly with { and ends with }. No additional text, explanations, or formatting.`;
+
+  document.getElementById("prompt-text").innerHTML = startingPrompt;
+}
+changeMediaTypeInTheDefaultPrompt();
