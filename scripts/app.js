@@ -1,6 +1,6 @@
 let formData = new FormData();
-//const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-const apiUrl = "http://localhost:3010";
+const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+//const apiUrl = "http://localhost:3010";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "VHS";
 console.log(mediaTypeToggle);
