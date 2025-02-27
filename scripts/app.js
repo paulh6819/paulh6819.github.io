@@ -1,6 +1,6 @@
 let formData = new FormData();
-const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-//const apiUrl = "http://localhost:3010";
+//const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+const apiUrl = "http://localhost:3010";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "VHS";
 console.log(mediaTypeToggle);
@@ -132,8 +132,11 @@ async function handleResponse(response) {
 }
 loadSuggestedPromptsIntoLocalStorage();
 function loadSuggestedPromptsIntoLocalStorage() {
-  const prompt1 =
-    "Suggested prompt: Take these Images and return then with descriptive header text. Give the Text css that makes the letters drip and swiral and turn colors. Make sure individual letters fall too. and print out the css at the bottom so i can copy it.";
+  const prompt1 = `Extract the DVD titles from this image and return them **strictly** as a raw JSON object. Do NOT include any markdown formatting, just return the object directly in this format:
+
+{ "titles": ["Title 1", "Title 2", "Title 3"] }
+
+Make sure the response starts directly with { and ends with }. No additional text, explanations, or formatting.`;
   const prompt2 =
     "Suggested prompt: Please identify the following items and bring back an estimated resale value.";
   const promp3 =
@@ -281,7 +284,10 @@ function setupSelectionButtons() {
 setupSelectionButtons();
 
 function changeMediaTypeInTheDefaultPrompt() {
-  let startingPrompt = `Extract the ${mediaTypeToggle} titles from this image and return them **strictly** as a raw JSON object. Do NOT include any markdown formatting, just return the object directly in this format:
+  let startingPrompt = `Extract the ${mediaTypeToggle} titles from this image and return them. 
+  Include subtitles like, collectors edition or complete season, ect.
+ **strictly** as a raw JSON object. Do NOT include any markdown 
+formatting, just return the object directly in this format:
 
 { "titles": ["Title 1", "Title 2", "Title 3"] }
 
