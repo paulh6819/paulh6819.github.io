@@ -1,8 +1,8 @@
 let formData = new FormData();
-const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-//const apiUrl = "http://localhost:3010";
+//const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+const apiUrl = "http://localhost:3010";
 
-let mediaTypeToggle = localStorage.getItem("selectedMedia") || "VHS";
+let mediaTypeToggle = localStorage.getItem("selectedMedia") || "DVD";
 console.log(mediaTypeToggle);
 
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
