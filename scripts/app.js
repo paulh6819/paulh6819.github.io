@@ -25,25 +25,26 @@ async function sendDataToAIEndPoint() {
   formData.append("prompt", promtTextInput);
 
   putPromptInLocalStorage(promtTextInput);
+  sendImagesSeparately(formData, promtTextInput);
 
   //below this is where the toggle switch state data will declare the uel perameter
 
-  try {
-    const response = await fetch(
-      apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+  // try {
+  //   const response = await fetch(
+  //     apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
+  //     {
+  //       method: "POST",
+  //       body: formData,
+  //     }
+  //   );
 
-    console.log(response);
+  //   console.log(response);
 
-    const data = await handleResponse(response);
-    hideLoadingSymbol();
-  } catch (error) {
-    console.error("this is the error from the AIEndPoint", error);
-  }
+  //   const data = await handleResponse(response);
+  //   hideLoadingSymbol();
+  // } catch (error) {
+  //   console.error("this is the error from the AIEndPoint", error);
+  // }
 }
 
 /////
@@ -95,41 +96,6 @@ function displaySendDataButton() {
   ).style.display = "block";
 }
 
-async function handleResponse(response) {
-  if (response.ok) {
-    // const data = await response.json();
-    const data = await response.json(); // Correctly parse the response
-    console.log("Full API Response:", data);
-    // Initialize HTML content
-    let htmlContent = `<h2>Extracted Titles</h2><ul>`;
-
-    // Iterate over all extracted titles from all results
-    data.results.forEach((result) => {
-      result.extractedTitles.forEach((title) => {
-        htmlContent += `<li><strong>${title}</strong></li>`;
-      });
-    });
-
-    htmlContent += `</ul><h2>Best Fuzzy Matches</h2><ul>`;
-
-    // Iterate over all fuzzy matches from all results
-    data.results.forEach((result) => {
-      result.fuzzyMatches.forEach((match) => {
-        htmlContent += `<li>${match}</li>`;
-      });
-    });
-
-    htmlContent += `</ul>`;
-
-    // Inject into UI
-    document.getElementById("result-container").style.display = "block";
-    document.getElementById("result-container").innerHTML = htmlContent;
-
-    return data;
-  } else {
-    throw new Error(`Server responded with status: ${response.status}`);
-  }
-}
 loadSuggestedPromptsIntoLocalStorage();
 function loadSuggestedPromptsIntoLocalStorage() {
   const prompt1 = `Extract the DVD titles from this image and return them **strictly** as a raw JSON object. Do NOT include any markdown formatting, just return the object directly in this format:
@@ -296,3 +262,102 @@ Make sure the response starts directly with { and ends with }. No additional tex
   document.getElementById("prompt-text").innerHTML = startingPrompt;
 }
 changeMediaTypeInTheDefaultPrompt();
+
+// async function sendImagesSeparately(formData, promtTextInput) {
+//   for (let [key, value] of formData.entries()) {
+//     if (key === "images") {
+//       // Ensure we are only processing images
+//       const singleFormData = new FormData();
+//       singleFormData.append("images", value);
+//       singleFormData.append("prompt", promtTextInput);
+
+//       fetch(apiUrl + "/AIAnalysisEndPoint", {
+//         method: "POST",
+//         body: singleFormData,
+//       })
+//         .then((response) => response.json())
+//         .then((data) => {
+//           console.log("Response for image:", data);
+//           // Update UI with individual responses
+//         })
+//         .catch((error) => console.error("Error uploading image:", error));
+//     }
+//   }
+// }
+
+async function sendImagesSeparately(formData, promptTextInput) {
+  let htmlContent = `<h2>Extracted Titles</h2><ul>`;
+
+  for (let [key, value] of formData.entries()) {
+    console.log("this is the new function");
+    if (key === "images") {
+      // Ensure we are only processing images
+      const singleFormData = new FormData();
+      singleFormData.append("images", value);
+      singleFormData.append("prompt", promptTextInput);
+
+      try {
+        const response = await fetch(
+          apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
+          {
+            method: "POST",
+            body: singleFormData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        // const data = await response.json();
+        // console.log("Parsed Data:", data); // Debugging step
+
+        // if (!data || typeof data !== "object") {
+        //   throw new Error("Received invalid or empty JSON response");
+        // }
+        const handledData = await handleResponse(response, htmlContent);
+
+        // You can process data further here if needed
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
+    }
+  }
+  hideLoadingSymbol();
+}
+
+async function handleResponse(response) {
+  if (response.ok) {
+    // const data = await response.json();
+    const data = await response.json(); // Correctly parse the response
+    console.log("Full API Response:", data);
+    // Initialize HTML content
+    // Initialize HTML content
+    let htmlContent = `<h2>Extracted Titles</h2><ul>`;
+    // Iterate over all extracted titles from all results
+    data.results.forEach((result) => {
+      result.extractedTitles.forEach((title) => {
+        htmlContent += `<li><strong>${title}</strong></li>`;
+      });
+    });
+
+    htmlContent += `</ul><h2>Best Fuzzy Matches</h2><ul>`;
+
+    // Iterate over all fuzzy matches from all results
+    data.results.forEach((result) => {
+      result.fuzzyMatches.forEach((match) => {
+        htmlContent += `<li>${match}</li>`;
+      });
+    });
+
+    htmlContent += `</ul>`;
+
+    // Inject into UI
+    document.getElementById("result-container").style.display = "block";
+    document.getElementById("result-container").innerHTML += htmlContent;
+
+    return data;
+  } else {
+    throw new Error(`Server responded with status: ${response.status}`);
+  }
+}
