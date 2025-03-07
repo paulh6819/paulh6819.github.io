@@ -1,6 +1,7 @@
 let formData = new FormData();
-//const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-const apiUrl = "http://localhost:3010";
+// fix this below, update the environment varibles
+const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+//const apiUrl = "http://localhost:3010";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "DVD";
 console.log(mediaTypeToggle);
@@ -289,41 +290,40 @@ async function sendImagesSeparately(formData, promptTextInput) {
   let htmlContent = `<h2>Extracted Titles</h2><ul>`;
 
   for (let [key, value] of formData.entries()) {
-    console.log("this is the new function");
+    console.log(
+      "this is the new function and the key and the value",
+      key,
+      value
+    );
     if (key === "images") {
+      console.log("inside the if of the images");
       // Ensure we are only processing images
       const singleFormData = new FormData();
       singleFormData.append("images", value);
       singleFormData.append("prompt", promptTextInput);
-
-      try {
-        const response = await fetch(
-          apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
-          {
-            method: "POST",
-            body: singleFormData,
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        // const data = await response.json();
-        // console.log("Parsed Data:", data); // Debugging step
-
-        // if (!data || typeof data !== "object") {
-        //   throw new Error("Received invalid or empty JSON response");
-        // }
-        const handledData = await handleResponse(response, htmlContent);
-
-        // You can process data further here if needed
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      processIMageWithFetch(singleFormData);
     }
   }
-  hideLoadingSymbol();
+}
+async function processIMageWithFetch(singleFormData) {
+  try {
+    const response = await fetch(
+      apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
+      {
+        method: "POST",
+        body: singleFormData,
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    await handleResponse(response);
+    hideLoadingSymbol();
+  } catch (error) {
+    console.error("Error uploading image:", error);
+  }
 }
 
 async function handleResponse(response) {
