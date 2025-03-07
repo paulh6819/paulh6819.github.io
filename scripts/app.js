@@ -333,8 +333,18 @@ async function handleResponse(response) {
     console.log("Full API Response:", data);
     // Initialize HTML content
     // Initialize HTML content
-    let htmlContent = `<h2>Extracted Titles</h2><ul>`;
+    const imageToAppendToTheReturningTitles = arrayBufferToBase64(
+      data.imageKey.data
+    );
+    const imageSrc = `data:${data.imageType};base64,${imageToAppendToTheReturningTitles}`;
+    let htmlContent = ` <div class="result-box">
+    <img src="${imageSrc}" alt="Uploaded Image" class="uploaded-image"/>
+    <h2>Extracted Titles</h2><ul>`;
     // Iterate over all extracted titles from all results
+    console.log(
+      "this shuold be the image binary",
+      data.imageKey.toString("base64")
+    );
     data.results.forEach((result) => {
       result.extractedTitles.forEach((title) => {
         htmlContent += `<li><strong>${title}</strong></li>`;
@@ -350,7 +360,9 @@ async function handleResponse(response) {
       });
     });
 
-    htmlContent += `</ul>`;
+    htmlContent += `</ul>
+    </div>
+    `;
 
     // Inject into UI
     document.getElementById("result-container").style.display = "block";
@@ -360,4 +372,13 @@ async function handleResponse(response) {
   } else {
     throw new Error(`Server responded with status: ${response.status}`);
   }
+}
+
+function arrayBufferToBase64(buffer) {
+  let binary = "";
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary); // Convert binary string to Base64
 }

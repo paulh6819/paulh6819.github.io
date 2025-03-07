@@ -469,3 +469,19 @@ li:hover {
   color: #555;
   font-style: italic;
 }
+.result-box {
+  border: 2px solid black;
+  padding: 10px;
+  margin-top: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px; /* Optional: rounded corners */
+}
+.title-in-match-container {
+  color: green;
+  font-size: medium;
+}
+
+.uploaded-image {
+  height: 100px;
+  width: 100px;
+}
