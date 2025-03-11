@@ -333,8 +333,7 @@ async function handleResponse(response) {
     // const data = await response.json();
     const data = await response.json(); // Correctly parse the response
     console.log("Full API Response:", data);
-    // Initialize HTML content
-    // Initialize HTML content
+
     const imageToAppendToTheReturningTitles = arrayBufferToBase64(
       data.imageKey.data
     );
