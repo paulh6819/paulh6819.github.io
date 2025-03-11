@@ -1,7 +1,7 @@
 let formData = new FormData();
 // fix this below, update the environment varibles
-//const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-const apiUrl = "http://localhost:3010";
+const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+//const apiUrl = "http://localhost:3010";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "DVD";
 console.log(mediaTypeToggle);
