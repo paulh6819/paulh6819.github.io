@@ -243,6 +243,8 @@ function setupSelectionButtons() {
       // Update UI
       document.getElementById("selected-value").innerText = selectedOption;
       localStorage.setItem("selectedMedia", selectedOption);
+      //refreash UI to update prompt
+      window.location.reload();
 
       console.log("Selected Option:", selectedOption);
     });
