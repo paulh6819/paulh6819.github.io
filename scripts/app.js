@@ -11,11 +11,13 @@ function handleDrop(event) {
   event.preventDefault();
   const files = event.dataTransfer.files;
   handleFiles(files);
+  sendDataToAIEndPoint();
 }
 
 function handleImageUploadFromButton(event) {
   const files = event.target.files;
   handleFiles(files);
+  sendDataToAIEndPoint();
 }
 //endpoint
 async function sendDataToAIEndPoint() {
