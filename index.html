@@ -29,6 +29,35 @@
       </div>
       <div id="dimmed-background"></div>
       <div class="center-container">
+        <button
+          class="button-style"
+          id="settings-btn"
+          onclick="makeSettingsAppear()"
+        >
+          Settings
+        </button>
+        <div id="div-holding-prompt-and-text-area">
+          <div id="div-holding-prompt-and-api-title">
+            <p>
+              The prompt below is the best one so far for getting the best
+              results.
+            </p>
+            <textarea
+              type="text"
+              placeholder="Prompt our 4o vision API AI model here"
+              id="prompt-text"
+              value=""
+            >
+            </textarea>
+
+            <button id="recentsButton">Recent Prompts ⬇️</button>
+            <div
+              id="recentsDropdown"
+              class="dropdown-content drop-down-modal"
+              style="display: none"
+            ></div>
+          </div>
+        </div>
         <h1>DVD and VHS SPOTTER</h1>
         <h2 class="typing">
           Welcome To Our Beta App For identifiing and Pricing DVDs and VHSs. All
@@ -54,29 +83,6 @@
 
           <!-- Display Selected Option -->
           <p>Selected: <span id="selected-value">None</span></p>
-        </div>
-
-        <div id="div-holding-prompt-and-api-title">
-          <p>
-            The prompt below is the best one so far for getting the best
-            results.
-          </p>
-          <div id="div-holding-prompt-and-text-area">
-            <textarea
-              type="text"
-              placeholder="Prompt our 4o vision API AI model here"
-              id="prompt-text"
-              value=""
-            >
-            </textarea>
-
-            <button id="recentsButton">Recent Prompts ⬇️</button>
-            <div
-              id="recentsDropdown"
-              class="dropdown-content drop-down-modal"
-              style="display: none"
-            ></div>
-          </div>
         </div>
 
         <div

@@ -1,7 +1,7 @@
 let formData = new FormData();
 // fix this below, update the environment varibles
-const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
-//const apiUrl = "http://localhost:3010";
+//const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
+const apiUrl = "http://localhost:3010";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "DVD";
 console.log(mediaTypeToggle);
@@ -383,4 +383,15 @@ function arrayBufferToBase64(buffer) {
     binary += String.fromCharCode(bytes[i]);
   }
   return btoa(binary); // Convert binary string to Base64
+}
+
+function makeSettingsAppear() {
+  const settingsDiv = document.getElementById(
+    "div-holding-prompt-and-text-area"
+  );
+  if (settingsDiv.style.display === "block") {
+    settingsDiv.style.display = "none";
+  } else {
+    settingsDiv.style.display = "block";
+  }
 }
