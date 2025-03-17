@@ -4,7 +4,7 @@ const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
 //const apiUrl = "http://localhost:3010";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "DVD";
-console.log(mediaTypeToggle);
+let extraAnalysisToggle = localStorage.getItem("extraAnalysisToggle");
 
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
 function handleDrop(event) {
@@ -312,7 +312,8 @@ async function sendImagesSeparately(formData, promptTextInput) {
 async function processIMageWithFetch(singleFormData) {
   try {
     const response = await fetch(
-      apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
+      apiUrl +
+        `/AIAnalysisEndPoint?media=${mediaTypeToggle}&extraAnalysis=${extraAnalysisToggle}`,
       {
         method: "POST",
         body: singleFormData,
@@ -327,6 +328,7 @@ async function processIMageWithFetch(singleFormData) {
     hideLoadingSymbol();
   } catch (error) {
     console.error("Error uploading image:", error);
+    alert("theres an error with one of hte images");
   }
 }
 
@@ -396,3 +398,74 @@ function makeSettingsAppear() {
     settingsDiv.style.display = "block";
   }
 }
+
+//i need to make a fuction that grabs the button for the extra anaylisis toggle and then puts into the local host if the extra analisis is true or not,
+// and then i need to make thebox turn green if chatGPT says the match is true, for when the extraAnaalisis is working
+
+function setupExtraAnalysisButton() {
+  // Get the button element
+  let extraAnalysisBtn = document.getElementById("extraAnalysisBtn");
+
+  // Load the toggle state from localStorage (always stored as a string)
+  let storedToggle = localStorage.getItem("extraAnalysisToggle");
+
+  // Declare a variable to store the actual boolean state
+  let extraAnalysisToggle;
+
+  // Convert stored string into boolean value (true or false)
+  if (storedToggle === "true") {
+    extraAnalysisToggle = true;
+  } else {
+    extraAnalysisToggle = false;
+  }
+
+  // Apply the visual state based on the toggle value
+  if (extraAnalysisToggle === true) {
+    extraAnalysisBtn.style.backgroundColor = "green";
+    extraAnalysisBtn.style.color = "white";
+    extraAnalysisBtn.setAttribute("data-active", "true");
+  } else {
+    extraAnalysisBtn.style.backgroundColor = "gray";
+    extraAnalysisBtn.style.color = "white";
+    extraAnalysisBtn.setAttribute("data-active", "false");
+  }
+
+  // Attach a click event listener to the button
+  extraAnalysisBtn.addEventListener("click", function () {
+    // Flip the toggle value
+    if (extraAnalysisToggle === true) {
+      extraAnalysisToggle = false;
+    } else {
+      extraAnalysisToggle = true;
+    }
+
+    // Save the updated value back to localStorage
+    if (extraAnalysisToggle === true) {
+      localStorage.setItem("extraAnalysisToggle", "true");
+    } else {
+      localStorage.setItem("extraAnalysisToggle", "false");
+    }
+
+    // Update the button appearance
+    if (extraAnalysisToggle === true) {
+      extraAnalysisBtn.style.backgroundColor = "green";
+      extraAnalysisBtn.style.color = "white";
+      extraAnalysisBtn.setAttribute("data-active", "true");
+    } else {
+      extraAnalysisBtn.style.backgroundColor = "gray";
+      extraAnalysisBtn.style.color = "white";
+      extraAnalysisBtn.setAttribute("data-active", "false");
+    }
+
+    // Log it for debugging
+    console.log("Extra Analysis Toggle is now:", extraAnalysisToggle);
+
+    // Reload the page to reflect changes
+    location.reload();
+  });
+}
+
+// ✅ Call this function once the DOM is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  setupExtraAnalysisButton();
+});
