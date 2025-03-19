@@ -335,7 +335,7 @@ li:hover {
   flex-direction: row;
   width: 100%;
   justify-content: center;
-  margin-bottom: -50px;
+  margin-bottom: 50px;
 }
 
 .modal {
@@ -508,4 +508,7 @@ li:hover {
   box-shadow: 0px 0px 0px rgb(171, 62, 62);
   border-color: transparent;
   transform: translateX(3px) translateY(4px);
+}
+#recentsDropdown {
+  margin-top: 35px;
 }

@@ -5,6 +5,7 @@ const apiUrl = "https://chatgpt-image-analyser-production.up.railway.app";
 
 let mediaTypeToggle = localStorage.getItem("selectedMedia") || "DVD";
 let extraAnalysisToggle = localStorage.getItem("extraAnalysisToggle");
+let fuzzyLogicStrength = null;
 
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
 function handleDrop(event) {
@@ -268,28 +269,6 @@ Make sure the response starts directly with { and ends with }. No additional tex
 }
 changeMediaTypeInTheDefaultPrompt();
 
-// async function sendImagesSeparately(formData, promtTextInput) {
-//   for (let [key, value] of formData.entries()) {
-//     if (key === "images") {
-//       // Ensure we are only processing images
-//       const singleFormData = new FormData();
-//       singleFormData.append("images", value);
-//       singleFormData.append("prompt", promtTextInput);
-
-//       fetch(apiUrl + "/AIAnalysisEndPoint", {
-//         method: "POST",
-//         body: singleFormData,
-//       })
-//         .then((response) => response.json())
-//         .then((data) => {
-//           console.log("Response for image:", data);
-//           // Update UI with individual responses
-//         })
-//         .catch((error) => console.error("Error uploading image:", error));
-//     }
-//   }
-// }
-
 async function sendImagesSeparately(formData, promptTextInput) {
   let htmlContent = `<h2>Extracted Titles</h2><ul>`;
 
@@ -313,7 +292,7 @@ async function processIMageWithFetch(singleFormData) {
   try {
     const response = await fetch(
       apiUrl +
-        `/AIAnalysisEndPoint?media=${mediaTypeToggle}&extraAnalysis=${extraAnalysisToggle}`,
+        `/AIAnalysisEndPoint?media=${mediaTypeToggle}&extraAnalysis=${extraAnalysisToggle}&fuzzyLogicSearchStrenth=${fuzzyLogicStrength}`,
       {
         method: "POST",
         body: singleFormData,
@@ -408,6 +387,7 @@ function setupExtraAnalysisButton() {
 
   // Load the toggle state from localStorage (always stored as a string)
   let storedToggle = localStorage.getItem("extraAnalysisToggle");
+  console.log(storedToggle);
 
   // Declare a variable to store the actual boolean state
   let extraAnalysisToggle;
@@ -464,8 +444,111 @@ function setupExtraAnalysisButton() {
     location.reload();
   });
 }
-
-// ✅ Call this function once the DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
   setupExtraAnalysisButton();
 });
+
+///LOGIC FOR DROP DOWN MENU
+let currentlyOpenMenu = null;
+const toggleDropdown = (e) => {
+  e.stopPropagation();
+  const btn = e.currentTarget;
+  let menu = btn.nextElementSibling;
+
+  while (menu && menu.nodeType !== 1) {
+    menu = menu.nextSibling;
+  }
+
+  if (!menu) return;
+
+  const isOpen = menu.style.display === "block";
+
+  if (currentlyOpenMenu && currentlyOpenMenu !== menu) {
+    currentlyOpenMenu.style.display = "none";
+  }
+
+  menu.style.display = isOpen ? "none" : "block";
+  currentlyOpenMenu = isOpen ? null : menu;
+};
+const closeAllMenus = () => {
+  if (currentlyOpenMenu) {
+    currentlyOpenMenu.style.display = "none";
+    currentlyOpenMenu = null;
+  }
+};
+window.addEventListener("DOMContentLoaded", () => {
+  const dropdownItems = document.querySelectorAll(".dropdown-menu li");
+  const displaySpan = document.getElementById("fuzzyStrengthValue");
+
+  // Restore value from localStorage (if any)
+  const savedValue = localStorage.getItem("fuzzyLogicStrength");
+  if (savedValue) {
+    // Highlight the saved option
+    dropdownItems.forEach((item) => {
+      if (item.getAttribute("data-value") === savedValue) {
+        item.classList.add("active");
+        if (displaySpan) {
+          displaySpan.textContent = savedValue;
+        }
+      } else {
+        item.classList.remove("active");
+      }
+    });
+  }
+
+  // Attach click events
+  document.querySelectorAll(".btn-buy-list").forEach((btn) => {
+    btn.addEventListener("click", toggleDropdown);
+  });
+
+  dropdownItems.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+
+      // Remove highlight from other items
+      const allItems = item.parentElement.querySelectorAll("li");
+      allItems.forEach((li) => li.classList.remove("active"));
+
+      // Highlight selected item
+      item.classList.add("active");
+
+      // Get selected value
+      const selectedValue = item.getAttribute("data-value");
+      console.log(`User selected fuzzy logic level: ${selectedValue}`);
+
+      // Update display
+      if (displaySpan) {
+        displaySpan.textContent = selectedValue;
+      }
+
+      // ✅ Save to localStorage
+      localStorage.setItem("fuzzyLogicStrength", selectedValue);
+
+      // Close menu
+      closeAllMenus();
+    });
+  });
+});
+// Close dropdown if click outside
+window.addEventListener("click", (e) => {
+  if (
+    currentlyOpenMenu &&
+    !e.target.classList.contains("btn-buy-list") &&
+    !currentlyOpenMenu.contains(e.target)
+  ) {
+    closeAllMenus();
+  }
+});
+function getFuzzyLogicStrengthFromLocalStorage() {
+  const storedValue = localStorage.getItem("fuzzyLogicStrength");
+  if (storedValue) {
+    console.log(
+      `📦 Loaded fuzzyLogicStrength from localStorage: ${storedValue}`
+    );
+    fuzzyLogicStrength = storedValue;
+  } else {
+    console.log("📦 No fuzzyLogicStrength found in localStorage.");
+  }
+}
+// Call this once on page load
+getFuzzyLogicStrengthFromLocalStorage();
