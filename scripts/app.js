@@ -30,25 +30,6 @@ async function sendDataToAIEndPoint() {
 
   putPromptInLocalStorage(promtTextInput);
   sendImagesSeparately(formData, promtTextInput);
-
-  //below this is where the toggle switch state data will declare the uel perameter
-
-  // try {
-  //   const response = await fetch(
-  //     apiUrl + `/AIAnalysisEndPoint?media=${mediaTypeToggle}`,
-  //     {
-  //       method: "POST",
-  //       body: formData,
-  //     }
-  //   );
-
-  //   console.log(response);
-
-  //   const data = await handleResponse(response);
-  //   hideLoadingSymbol();
-  // } catch (error) {
-  //   console.error("this is the error from the AIEndPoint", error);
-  // }
 }
 
 /////
@@ -307,7 +288,9 @@ async function processIMageWithFetch(singleFormData) {
     hideLoadingSymbol();
   } catch (error) {
     console.error("Error uploading image:", error);
-    alert("theres an error with one of hte images");
+    alert(
+      `theres an error with one of the images and here is the error- ${error}`
+    );
   }
 }
 
