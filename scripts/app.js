@@ -8,10 +8,11 @@ let extraAnalysisToggle = localStorage.getItem("extraAnalysisToggle");
 let fuzzyLogicStrength = null;
 
 //The two functions below handle the photos uploaded up the user, display them to the UI and prepare them to be sent to the backend
-function handleDrop(event) {
+async function handleDrop(event) {
   event.preventDefault();
   const files = event.dataTransfer.files;
-  handleFiles(files);
+  await handleFiles(files);
+  console.log("this is the formData", formData);
   sendDataToAIEndPoint();
 }
 
@@ -29,6 +30,11 @@ async function sendDataToAIEndPoint() {
   formData.append("prompt", promtTextInput);
 
   putPromptInLocalStorage(promtTextInput);
+  console.log("🧪 Logging all FormData entries:");
+  for (let pair of formData.entries()) {
+    console.log("👉", pair[0], pair[1]);
+  }
+
   sendImagesSeparately(formData, promtTextInput);
 }
 
@@ -36,9 +42,16 @@ async function sendDataToAIEndPoint() {
 /////  HELPER FUNCTIONS BELOW THIS POINT
 ////
 
-function handleFiles(files) {
-  const imageArray = createArrayOfImagesFromFileAndUpdateFormData(files);
-  updateImage(imageArray);
+async function handleFiles(files) {
+  const splitPhotoMode = true; // or pull this from localStorage or UI
+
+  const imageArray = splitPhotoMode
+    ? await createArrayOfImagesFromFileAndUpdateFormData(files)
+    : createOriginalImagesAndUpdateFormData(files);
+
+  //this below populates the UI with the orginal uploaded images
+  updateImage(files);
+
   displaySendDataButton();
 }
 
@@ -46,7 +59,17 @@ function handleDragOver(event) {
   event.preventDefault();
 }
 
-function updateImage(imageArray) {
+function updateImage(files) {
+  const imageArray = [];
+
+  for (let i = 0; i < files.length; i++) {
+    if (files[i].type.match(/^image\//)) {
+      console.log("Dropped file:", files[i]);
+      // formData.append("images", files[i]);
+      imageArray.push(files[i]);
+    }
+  }
+
   const container = document.getElementById("display-dropped-photos");
   container.style.border = "dotted 4px black";
   imageArray.forEach((image) => {
@@ -63,7 +86,7 @@ function updateImage(imageArray) {
   });
 }
 
-function createArrayOfImagesFromFileAndUpdateFormData(fileElement) {
+function createOriginalImagesAndUpdateFormData(fileElement) {
   const imageArray = [];
   for (let i = 0; i < fileElement.length; i++) {
     if (fileElement[i].type.match(/^image\//)) {
@@ -75,11 +98,90 @@ function createArrayOfImagesFromFileAndUpdateFormData(fileElement) {
   return imageArray;
 }
 
+async function createArrayOfImagesFromFileAndUpdateFormData(fileElement) {
+  // const imageArray = [];
+  // for (let i = 0; i < fileElement.length; i++) {
+  //   if (fileElement[i].type.match(/^image\//)) {
+  //     console.log("Dropped file:", fileElement[i]);
+  //     formData.append("images", fileElement[i]);
+  //     imageArray.push(fileElement[i]);
+  //   }
+  // }
+  // return imageArray;
+
+  const imageArray = [];
+  const promises = [];
+
+  //this for loop is what splits the photo in 4
+  for (let i = 0; i < fileElement.length; i++) {
+    const file = fileElement[i];
+    if (!file.type.match(/^image\//)) continue;
+
+    const promise = new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const { width, height } = img;
+        const canvas = document.createElement("canvas");
+        canvas.width = width / 4;
+        canvas.height = height;
+
+        for (let j = 0; j < 4; j++) {
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(
+            img,
+            j * (width / 4), // Source X
+            0, // Source Y
+            width / 4, // Source Width
+            height, // Source Height
+            0, // Dest X
+            0, // Dest Y
+            canvas.width, // Dest Width
+            canvas.height // Dest Height
+          );
+
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const chunkFile = new File([blob], `chunk_${i}_${j}.jpg`, {
+                  type: "image/jpeg",
+                });
+                formData.append("images", chunkFile);
+                imageArray.push(chunkFile);
+                if (imageArray.length === 4 * (i + 1)) resolve();
+              }
+            },
+            "image/jpeg",
+            0.85
+          );
+        }
+      };
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    promises.push(promise);
+  }
+
+  // Wait for all images to finish processing before continuing
+  await Promise.all(promises).then(() => {
+    // updateImage(imageArray);
+    displaySendDataButton();
+  });
+  console.log("this is the image array", imageArray);
+  return imageArray;
+}
+
+//
 function displaySendDataButton() {
   document.getElementById(
     "div-for-button-to-fetch-data-from-backend"
   ).style.display = "block";
 }
+//
 
 loadSuggestedPromptsIntoLocalStorage();
 function loadSuggestedPromptsIntoLocalStorage() {
